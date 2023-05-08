@@ -148,7 +148,7 @@
                 web3 = window.web3;
                 contract = new web3.eth.Contract(abi, contractAddress);
                 try {
-                    await window.ethereum.enable();
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
                     accounts = await web3.eth.getAccounts();
                     displayUserBalance(); 
                 } catch (error) {
