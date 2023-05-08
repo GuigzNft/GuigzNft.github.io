@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion MetaMask</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Connexion MetaMask</h1>
+    <button id="connectButton">Se connecter à MetaMask</button>
+    <br><br>
+    <h2>Dépôt et retrait de tokens</h2>
+    <input type="number" id="amount" placeholder="Montant" min="0">
+    <br><br>
+    <button id="depositGuigzToken">Déposer GuigzToken</button>
+    <button id="withdrawGuigzToken">Retirer GuigzToken</button>
+    <br><br>
+    <button id="depositWSGB">Déposer WSGB</button>
+    <button id="withdrawWSGB">Retirer WSGB</button>
+    <p id="userBalance">Solde : 0</p>
+
+    <script>
+        const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_GuigzToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_WSGB",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "GuigzToken",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "WSGB",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balances",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "depositGuigzToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "depositWSGB",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawGuigzToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawWSGB",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+        const contractAddress = 0x5b4957C4d9027C6f838781A0FA3c60A594b6eB09;
+
+        let web3;
+        let contract;
+        let accounts;
+
+        async function connect() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                web3 = window.web3;
+                contract = new web3.eth.Contract(abi, contractAddress);
+                try {
+                    await window.ethereum.enable();
+                    accounts = await web3.eth.getAccounts();
+                    displayUserBalance(); 
+                } catch (error) {
+                    console.error("L'utilisateur a refusé la connexion");
+                }
+            } else {
+                console.error("MetaMask n'est pas installé");
+            }
+        }
+        async function displayUserBalance() {
+    if (accounts && accounts[0]) {
+        const userBalance = await web3.eth.getBalance(accounts[0]);
+        const userBalanceInEther = web3.utils.fromWei(userBalance, "ether");
+        document.getElementById("userBalance").innerText = `Solde : ${userBalanceInEther} ETH`;
+    } else {
+        document.getElementById("userBalance").innerText = "Solde : 0 ETH";
+    }
+}
+        async function depositGuigzToken() {
+            const amount = document.getElementById("amount").value;
+            await contract.methods.depositGuigzToken(amount).send({ from: accounts[0] });
+        }
+
+        async function withdrawGuigzToken() {
+            const amount = document.getElementById("amount").value;
+            await contract.methods.withdrawGuigzToken(amount).send({ from: accounts[0] });
+        }
+
+        async function depositWSGB() {
+            const amount = document.getElementById("amount").value;
+            await contract.methods.depositWSGB(amount).send({ from: accounts[0] });
+        }
+
+        async function withdrawWSGB() {
+            const amount = document.getElementById("amount").value;
+            await contract.methods.withdrawWSGB(amount).send({ from: accounts[0] });
+        }
+
+        document.getElementById("connectButton").addEventListener("click", connect);
+        document.getElementById("depositGuigzToken").addEventListener("click", depositGuigzToken);
+        document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
+        document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
+        document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
+    </script>
+</body>
+</html>
