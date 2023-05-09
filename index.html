@@ -150,12 +150,12 @@
 ];
         const contractAddress = 0x5b4957C4d9027C6f838781A0FA3c60A594b6eB09;
 
-        let web3;
+		let web3;
         let contract;
         let accounts;
 
         async function connect() {
-            if (window.ethereum) {
+            if (typeof window.ethereum !== 'undefined') {
                 window.web3 = new Web3(window.ethereum);
                 web3 = window.web3;
                 contract = new web3.eth.Contract(abi, contractAddress);
@@ -204,6 +204,26 @@
         document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
-    </script>
+       
+		// Ajout des écouteurs d'événements
+		   document.getElementById("connectButton").addEventListener("click", async () => {
+            // Vérifie que MetaMask est installé
+            if (!window.ethereum) {
+                alert("Veuillez installer MetaMask pour utiliser cette application.");
+                return;
+            }
+            
+            // Vérifie que l'utilisateur est connecté à MetaMask
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length === 0) {
+                alert("Veuillez vous connecter à MetaMask.");
+                return;
+            }
+
+            // Connecte à MetaMask et rafraîchit la page
+            await connect();
+            window.location.reload();
+        });
+	</script>
 </body>
 </html>
