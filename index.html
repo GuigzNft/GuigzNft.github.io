@@ -9,29 +9,28 @@
 </head>
 <body>
     <h1>Bienvenue chez GuigzNFT</h1>
+	<div class="story">
+		<p>Il était une fois un éléphant rouge nommé Guigz, qui était différent des autres éléphants de sa tribu. Sa couleur unique et sa curiosité sans limite l'avaient amené à explorer le monde virtuel en quête d'opportunités pour se démarquer encore davantage.</p>
+		<p>Un jour, Guigz découvrit l'univers fascinant des NFT, ou "Jetons Non Fongibles". Ce nouveau monde lui offrait la possibilité d'acheter et de vendre des œuvres d'art numériques uniques, comme des images ou des animations, chacune dotée d'une valeur spécifique. Il comprit que le succès dans cet univers reposait sur plusieurs concepts clés, notamment le stacking, le net et les cryptomonnaies.</p>
+		<p>Guigz commença par apprendre le stacking. Il découvrit que cette technique consistait à cumuler des tokens, ou jetons, pour améliorer ses gains et ses avantages au sein de la communauté NFT. Il pouvait ainsi renforcer sa position et profiter d'opportunités exclusives.</p>
+		<p>Le net, quant à lui, faisait référence au réseau Internet et aux plateformes en ligne où Guigz pouvait acheter, vendre ou échanger des NFTs avec d'autres amateurs. Il comprit que maîtriser cet outil était essentiel pour naviguer efficacement dans l'univers des NFT et accéder aux meilleures opportunités.</p>
+		<p>Enfin, les cryptomonnaies jouaient un rôle crucial dans le monde des NFT. Guigz apprit que ces monnaies virtuelles étaient souvent utilisées pour acheter et vendre des NFT, car elles offraient sécurité et anonymat aux transactions. Il se familiarisa avec des cryptomonnaies populaires telles que l'Ethereum et le Bitcoin et apprit à les utiliser pour ses transactions.</p>
+		<p>Un jour, Guigz tomba sur une image virtuelle représentant un éléphant rouge majestueux, qui lui ressemblait étrangement. Il décida d'investir dans ce NFT, qu'il baptisa GuigzNFT. Grâce à sa persévérance et à sa connaissance des concepts clés du stacking, du net et des cryptomonnaies, Guigz réussit à vendre son GuigzNFT à un prix bien supérieur à celui qu'il avait payé.</p>
+		<p>Cette expérience permit à Guigz de comprendre la valeur de la différence et de l'unicité, et il continua à explorer l'univers des NFT pour partager son histoire et inspirer d'autres amateurs à embrasser leur singularité.</p>
+	</div>
     <div class="container">
-		<div class="story">
-			<p>Il était une fois un éléphant rouge nommé Guigz, qui était différent des autres éléphants de sa tribu. Sa couleur unique et sa curiosité sans limite l'avaient amené à explorer le monde virtuel en quête d'opportunités pour se démarquer encore davantage.</p>
-			<p>Un jour, Guigz découvrit l'univers fascinant des NFT, ou "Jetons Non Fongibles". Ce nouveau monde lui offrait la possibilité d'acheter et de vendre des œuvres d'art numériques uniques, comme des images ou des animations, chacune dotée d'une valeur spécifique. Il comprit que le succès dans cet univers reposait sur plusieurs concepts clés, notamment le stacking, le net et les cryptomonnaies.</p>
-			<p>Guigz commença par apprendre le stacking. Il découvrit que cette technique consistait à cumuler des tokens, ou jetons, pour améliorer ses gains et ses avantages au sein de la communauté NFT. Il pouvait ainsi renforcer sa position et profiter d'opportunités exclusives.</p>
-			<p>Le net, quant à lui, faisait référence au réseau Internet et aux plateformes en ligne où Guigz pouvait acheter, vendre ou échanger des NFTs avec d'autres amateurs. Il comprit que maîtriser cet outil était essentiel pour naviguer efficacement dans l'univers des NFT et accéder aux meilleures opportunités.</p>
-			<p>Enfin, les cryptomonnaies jouaient un rôle crucial dans le monde des NFT. Guigz apprit que ces monnaies virtuelles étaient souvent utilisées pour acheter et vendre des NFT, car elles offraient sécurité et anonymat aux transactions. Il se familiarisa avec des cryptomonnaies populaires telles que l'Ethereum et le Bitcoin et apprit à les utiliser pour ses transactions.</p>
-			<p>Un jour, Guigz tomba sur une image virtuelle représentant un éléphant rouge majestueux, qui lui ressemblait étrangement. Il décida d'investir dans ce NFT, qu'il baptisa GuigzNFT. Grâce à sa persévérance et à sa connaissance des concepts clés du stacking, du net et des cryptomonnaies, Guigz réussit à vendre son GuigzNFT à un prix bien supérieur à celui qu'il avait payé.</p>
-			<p>Cette expérience permit à Guigz de comprendre la valeur de la différence et de l'unicité, et il continua à explorer l'univers des NFT pour partager son histoire et inspirer d'autres amateurs à embrasser leur singularité.</p>
-		</div>		
         <button id="connectButton">Se connecter à MetaMask</button>
-        <br><br>
-        <h2>Dépôt et retrait de tokens</h2>
-		<div class="content">
-			<input type="number" id="amount" placeholder="Montant" min="0">
-			<br><br>
-			<button id="depositGuigzToken">Déposer GuigzToken</button>
-			<button id="withdrawGuigzToken">Retirer GuigzToken</button>
-			<button id="depositWSGB">Déposer WSGB</button>
-			<button id="withdrawWSGB">Retirer WSGB</button>		
-        </div>
-        <p id="userBalance">Solde : 0</p>
     </div>
+    <h2>Dépôt et retrait de tokens</h2>
+    <div class="content">
+        <input type="number" id="amount" placeholder="Montant" min="0">
+        <br><br>
+        <button id="depositGuigzToken">Déposer GuigzToken</button>
+        <button id="withdrawGuigzToken">Retirer GuigzToken</button>
+        <button id="depositWSGB">Déposer WSGB</button>
+        <button id="withdrawWSGB">Retirer WSGB</button>      
+    </div>
+    <p id="userBalance">Solde : 0</p>
     <script>
         const abi = [
 	{
@@ -148,51 +147,51 @@
 		"type": "function"
 	}
 ];
-        const contractAddress = 0x5b4957C4d9027C6f838781A0FA3c60A594b6eB09;
+const contractAddress = "0x5b4957C4d9027C6f838781A0FA3c60A594b6eB09";
 
-		let web3;
-        let contract;
-        let accounts;
+let web3, contract, accounts;
 
-        async function connect() {
-            if (typeof window.ethereum !== 'undefined') {
-                window.web3 = new Web3(window.ethereum);
-                web3 = window.web3;
-                contract = new web3.eth.Contract(abi, contractAddress);
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    accounts = await web3.eth.getAccounts();
-                    displayUserBalance(); 
-                } catch (error) {
-                    console.error("L'utilisateur a refusé la connexion");
-                }
-            } else {
-                console.error("MetaMask n'est pas installé");
-            }
-        }
-        async function displayUserBalance() {
-    if (accounts && accounts[0]) {
-        const userBalance = await web3.eth.getBalance(accounts[0]);
-        const userBalanceInEther = web3.utils.fromWei(userBalance, "ether");
-        document.getElementById("userBalance").innerText = `Solde : ${userBalanceInEther} ETH`;
-    } else {
-        document.getElementById("userBalance").innerText = "Solde : 0 ETH";
-    }
+async function connect() {
+	if (typeof window.ethereum !== 'undefined') {
+		window.web3 = new Web3(window.ethereum);
+		web3 = window.web3;
+		contract = new web3.eth.Contract(abi, contractAddress);
+		try {
+			await window.ethereum.request({ method: 'eth_requestAccounts' });
+			accounts = await web3.eth.getAccounts();
+			displayUserBalance(); 
+		} catch (error) {
+			console.error("L'utilisateur a refusé la connexion");
+		}
+	} else {
+		console.error("MetaMask n'est pas installé");
+	}
 }
-        async function depositGuigzToken() {
-            const amount = document.getElementById("amount").value;
-            await contract.methods.depositGuigzToken(amount).send({ from: accounts[0] });
-        }
 
-        async function withdrawGuigzToken() {
-            const amount = document.getElementById("amount").value;
-            await contract.methods.withdrawGuigzToken(amount).send({ from: accounts[0] });
-        }
+async function displayUserBalance() {
+	if (accounts && accounts[0]) {
+		const userBalance = await web3.eth.getBalance(accounts[0]);
+		const userBalanceInEther = web3.utils.fromWei(userBalance, "ether");
+		document.getElementById("userBalance").innerText = `Solde : ${userBalanceInEther} ETH`;
+	} else {
+		document.getElementById("userBalance").innerText = "Solde : 0 ETH";
+	}
+}
 
-        async function depositWSGB() {
-            const amount = document.getElementById("amount").value;
-            await contract.methods.depositWSGB(amount).send({ from: accounts[0] });
-        }
+async function depositGuigzToken() {
+	const amount = document.getElementById("amount").value;
+	await contract.methods.depositGuigzToken(amount).send({ from: accounts[0] });
+}
+
+async function withdrawGuigzToken() {
+	const amount = document.getElementById("amount").value;
+	await contract.methods.withdrawGuigzToken(amount).send({ from: accounts[0] });
+}
+
+async function depositWSGB() {
+	const amount = document.getElementById("amount").value;
+	await contract.methods.depositWSGB(amount).send({ from: accounts[0] });
+}
 
         async function withdrawWSGB() {
             const amount = document.getElementById("amount").value;
