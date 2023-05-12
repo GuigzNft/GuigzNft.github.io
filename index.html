@@ -20,18 +20,40 @@
 	</div>
     <div class="container">
         <button id="connectButton">Se connecter à MetaMask</button>
+        <button id="connectSongbirdButton">Se connecter à Songbird Network</button>
     </div>
-    <h2>Dépôt et retrait de tokens</h2>
-    <div class="content">
-        <input type="number" id="amount" placeholder="Montant" min="0">
-        <br><br>
-        <button id="depositGuigzToken">Déposer GuigzToken</button>
-        <button id="withdrawGuigzToken">Retirer GuigzToken</button>
-        <button id="depositWSGB">Déposer WSGB</button>
-        <button id="withdrawWSGB">Retirer WSGB</button>      
-    </div>
-    <p id="userBalance">Solde : 0</p>
     <script>
+      let web3, accounts, contract;
+
+async function connectMetaMask() {
+	if (typeof window.ethereum !== 'undefined') {
+		window.web3 = new Web3(window.ethereum);
+		web3 = window.web3;
+		try {
+			await window.ethereum.request({ method: 'eth_requestAccounts' });
+			accounts = await web3.eth.getAccounts();
+		} catch (error) {
+			console.error("L'utilisateur a refusé la connexion");
+		}
+	} else {
+		console.error("MetaMask n'est pas installé");
+	}
+}
+
+async function connectSongbird() {
+	if (typeof window.ethereum !== 'undefined') {
+		window.web3 = new Web3('https://api.songbird.exnft.io/v1/songbird'); // URL RPC pour Songbird Network
+		web3 = window.web3;
+		try {
+			await window.ethereum.request({ method: 'eth_requestAccounts' });
+			accounts = await web3.eth.getAccounts();
+		} catch (error) {
+			console.error("L'utilisateur a refusé la connexion");
+		}
+	} else {
+		console.error("MetaMask n'est pas installé");
+	}
+
         const abi = [
 	{
 		"inputs": [
@@ -180,22 +202,26 @@ async function displayUserBalance() {
 
 async function depositGuigzToken() {
 	const amount = document.getElementById("amount").value;
-	await contract.methods.depositGuigzToken(amount).send({ from: accounts[0] });
+	const amountInWei = web3.utils.toWei(amount, 'ether');
+	await contract.methods.depositGuigzToken(amountInWei).send({ from: accounts[0] });
 }
 
 async function withdrawGuigzToken() {
 	const amount = document.getElementById("amount").value;
-	await contract.methods.withdrawGuigzToken(amount).send({ from: accounts[0] });
+	const amountInWei = web3.utils.toWei(amount, 'ether');
+	await contract.methods.withdrawGuigzToken(amountInWei).send({ from: accounts[0] });
 }
 
 async function depositWSGB() {
 	const amount = document.getElementById("amount").value;
-	await contract.methods.depositWSGB(amount).send({ from: accounts[0] });
+	const amountInWei = web3.utils.toWei(amount, 'ether');
+	await contract.methods.depositWSGB(amountInWei).send({ from: accounts[0] });
 }
 
-        async function withdrawWSGB() {
+async function withdrawWSGB() {
             const amount = document.getElementById("amount").value;
-            await contract.methods.withdrawWSGB(amount).send({ from: accounts[0] });
+            const amountInWei = web3.utils.toWei(amount, 'ether');
+            await contract.methods.withdrawWSGB(amountInWei).send({ from: accounts[0] });
         }
 
         document.getElementById("connectButton").addEventListener("click", connect);
@@ -203,26 +229,29 @@ async function depositWSGB() {
         document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
-       
+    </script>
 		// Ajout des écouteurs d'événements
-		   document.getElementById("connectButton").addEventListener("click", async () => {
-            // Vérifie que MetaMask est installé
-            if (!window.ethereum) {
-                alert("Veuillez installer MetaMask pour utiliser cette application.");
-                return;
-            }
-            
-            // Vérifie que l'utilisateur est connecté à MetaMask
+		<script>
+    document.getElementById("connectButton").addEventListener("click", async () => {
+        // Vérifie que MetaMask est installé
+        if (!window.ethereum) {
+            console.log("MetaMask non installé");
+            alert("Veuillez installer MetaMask pour utiliser cette application.");
+            return;
+        }
+
+        // Vérifie que l'utilisateur est connecté à MetaMask
+        try {
             const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            console.log("Comptes :", accounts);
             if (accounts.length === 0) {
                 alert("Veuillez vous connecter à MetaMask.");
                 return;
             }
-
-            // Connecte à MetaMask et rafraîchit la page
-            await connect();
-            window.location.reload();
-        });
-	</script>
+        } catch (error) {
+            console.error("Erreur lors de la demande de comptes :", error);
+        }
+    });
+</script>
 </body>
 </html>
