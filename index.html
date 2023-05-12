@@ -211,16 +211,13 @@ async function withdrawWSGB() {
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
 
-    </script>
 	document.getElementById("connectButton").addEventListener("click", connectMetaMask);
-    document.getElementById("connectButton").addEventListener("click", async () => {
         // Vérifie que MetaMask est installé
         if (!window.ethereum) {
             console.log("MetaMask non installé");
             alert("Veuillez installer MetaMask pour utiliser cette application.");
             return;
         }
-
         // Vérifie que l'utilisateur est connecté à MetaMask
         try {
             const accounts = await window.ethereum.request({ method: 'eth_accounts' });
@@ -232,7 +229,7 @@ async function withdrawWSGB() {
         } catch (error) {
             console.error("Erreur lors de la demande de comptes :", error);
         }
-    });
+    }
     </script>
 </body>
 </html>
