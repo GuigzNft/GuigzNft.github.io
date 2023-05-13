@@ -33,8 +33,11 @@
     </div>
 	<p id="balance">Solde : 0</p>
     <script>
+        let web3;
+        let accounts;
+        let contract;
 
-async function connect() {
+        async function connect() {
     if (window.ethereum) {
         try {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -168,15 +171,15 @@ async function connect() {
 		"type": "function"
 	}
 ];
-const contractAddress = "0x5b4957C4d9027C6f838781A0FA3c60A594b6eB09";
+const contractAddress = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
 async function displayUserBalance() {
 	if (accounts && accounts[0]) {
 		const userBalance = await web3.eth.getBalance(accounts[0]);
 		const userBalanceInEther = web3.utils.fromWei(userBalance, "ether");
-		document.getElementById("userBalance").innerText = `Solde : ${userBalanceInEther} ETH`;
+		document.getElementById("balance").innerText = `Solde : ${userBalanceInEther} ETH`;
 	} else {
-		document.getElementById("userBalance").innerText = "Solde : 0 ETH";
+		document.getElementById("balance").innerText = "Solde : 0 ETH";
 	}
 }
 async function depositGuigzToken() {
@@ -203,13 +206,31 @@ async function depositGuigzToken() {
             await contract.methods.withdrawWSGB(amountInWei).send({ from: accounts[0] });
         }
 
+        async function loadBlockchainData() {
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+    const accounts = await web3.eth.getAccounts();
+    const networkId = await web3.eth.net.getId();
+
+    const tokenDepositWithdraw = new web3.eth.Contract(
+        abi,
+        contractAddress
+    );
+
+    const WSGBBalance = await tokenDepositWithdraw.methods.balancesWSGB(accounts[0]).call();
+    const GuigzTokenBalance = await tokenDepositWithdraw.methods.balancesGuigzToken(accounts[0]).call();
+
+    document.getElementById("WSGBBalance").innerText = `WSGB Balance: ${WSGBBalance}`;
+    document.getElementById("GuigzTokenBalance").innerText = `GuigzToken Balance: ${GuigzTokenBalance}`;
+}
+
         document.getElementById("connect").addEventListener("click", connect);
         document.getElementById("depositGuigzToken").addEventListener("click", depositGuigzToken);
         document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
     </script>
-        <div id="WSGBBalance"></div>
-        <div id="GuigzTokenBalance"></div>
+    <button onclick="loadBlockchainData()">Load Blockchain Data</button>
+    <div id="WSGBBalance"></div>
+    <div id="GuigzTokenBalance"></div>
 </body>
 </html>
