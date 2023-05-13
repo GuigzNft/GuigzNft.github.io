@@ -36,7 +36,8 @@
         let web3;
         let accounts;
         let contract;
-        let mintNFT = await contractAddress1.methods.mint(...).send({ from: accounts[0] });
+        let mintNFT = await contract1.methods.mint(...).send({ from: accounts[0] });
+
 
         const abi1 = [
 	{
@@ -492,25 +493,6 @@
 ];
         const contractAddress1 = 0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf;
 
-        async function connect() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            web3 = new Web3(window.ethereum);
-            accounts = await web3.eth.getAccounts();
-            const balance = await web3.eth.getBalance(accounts[0]);
-            document.getElementById("balance").innerHTML = "Balance: " + balance / 1e18 + " SGB";
-
-            contract = new web3.eth.Contract(abi1, contractAddress1);
-
-            await displayUserBalance();
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        console.error("MetaMask not detected.");
-    }
-}
 async function mint() {
             try {
                 await contract.methods.mintNFT(accounts[0]).send({ from: accounts[0] });
@@ -665,7 +647,8 @@ async function connect() {
             document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
 
             contract = new web3.eth.Contract(abi, contractAddress);
-
+            contract = new web3.eth.Contract(abi1, contractAddress1);
+            
             await displayUserBalance();
         } catch (error) {
             console.error(error);
