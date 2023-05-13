@@ -57,67 +57,7 @@
     }
 }
         const abi = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_GuigzToken",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_WSGB",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "GuigzToken",
-		"outputs": [
-			{
-				"internalType": "contract IERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "WSGB",
-		"outputs": [
-			{
-				"internalType": "contract IERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "balances",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
+        [
 	{
 		"inputs": [
 			{
@@ -147,6 +87,22 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_GuigzToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_WSGB",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
@@ -169,17 +125,81 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balancesGuigzToken",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balancesWSGB",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "GuigzToken",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "WSGB",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
-];
+]
 const contractAddress = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
 async function displayUserBalance() {
 	if (accounts && accounts[0]) {
 		const userBalance = await web3.eth.getBalance(accounts[0]);
 		const userBalanceInEther = web3.utils.fromWei(userBalance, "ether");
-		document.getElementById("balance").innerText = `Solde : ${userBalanceInEther} ETH`;
+		document.getElementById("balances").innerText = `Solde : ${userBalanceInEther} ETH`;
 	} else {
-		document.getElementById("balance").innerText = "Solde : 0 ETH";
+		document.getElementById("balances").innerText = "Solde : 0 ETH";
 	}
 }
 async function depositGuigzToken() {
@@ -219,8 +239,8 @@ async function depositGuigzToken() {
     const WSGBBalance = await tokenDepositWithdraw.methods.balancesWSGB(accounts[0]).call();
     const GuigzTokenBalance = await tokenDepositWithdraw.methods.balancesGuigzToken(accounts[0]).call();
 
-    document.getElementById("WSGBBalance").innerText = `WSGB Balance: ${WSGBBalance}`;
-    document.getElementById("GuigzTokenBalance").innerText = `GuigzToken Balance: ${GuigzTokenBalance}`;
+    document.getElementById("balancesWSGB").innerText = `WSGB Balance: ${WSGBBalance}`;
+    document.getElementById("balancesGuigzToken").innerText = `GuigzToken Balance: ${GuigzTokenBalance}`;
 }
 
         document.getElementById("connect").addEventListener("click", connect);
