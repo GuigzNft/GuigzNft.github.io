@@ -37,7 +37,34 @@
         let accounts;
         let contract;
         let mintNFT = await contract1.methods.mint(...).send({ from: accounts[0] });
+        let contractAddress, contractAddress1;
+        let contractAddress1 = "contractAddress1"; // Adresse du premier contrat
+            let abi1 = [abi1]; // ABI du premier contrat
+            contract1 = new web3.eth.Contract(abi1, contractAddress1);
 
+            let contractAddress = "contractAddress"; // Adresse du deuxième contrat
+            let abi = [abi]; // ABI du deuxième contrat
+            contract = new web3.eth.Contract(abi, contractAddress);
+
+async function connect() {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            web3 = new Web3(window.ethereum);
+            accounts = await web3.eth.getAccounts();
+            const balance = await web3.eth.getBalance(accounts[0]);
+            document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
+
+            contract = new web3.eth.Contract(abi, contractAddress);
+
+            await displayUserBalance();
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.error("MetaMask not detected.");
+    }
+}
 
         const abi1 = [
 	{
@@ -637,26 +664,6 @@ async function mint() {
 ]
 const contractAddress = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
-async function connect() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            web3 = new Web3(window.ethereum);
-            accounts = await web3.eth.getAccounts();
-            const balance = await web3.eth.getBalance(accounts[0]);
-            document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
-
-            contract = new web3.eth.Contract(abi, contractAddress)
-            
-            await displayUserBalance();
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        console.error("MetaMask not detected.");
-    }
-}
-
 async function displayUserBalance() {
 	if (accounts && accounts[0]) {
 		const userBalance = await web3.eth.getBalance(accounts[0]);
@@ -688,7 +695,6 @@ async function depositGuigzToken() {
             const amount = document.getElementById("wsgbAmount").value;
             const amountInWei = web3.utils.toWei(amount, 'ether');
             await contract.methods.withdrawWSGB(amountInWei).send({ from: accounts[0] });
-        }
 
         async function loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
