@@ -37,25 +37,26 @@
         let accounts;
         let contract;
         let mintNFT = await contract1.methods.mint(...).send({ from: accounts[0] });
-        let contractAddress, contractAddress1;
+        let contractAddress1, contractAddress2;
         let contractAddress1 = "contractAddress1"; // Adresse du premier contrat
             let abi1 = [abi1]; // ABI du premier contrat
             contract1 = new web3.eth.Contract(abi1, contractAddress1);
 
-            let contractAddress = "contractAddress"; // Adresse du deuxième contrat
-            let abi = [abi]; // ABI du deuxième contrat
+            let contractAddress2 = "contractAddress2"; // Adresse du deuxième contrat
+            let abi2 = [abi2]; // ABI du deuxième contrat
             contract = new web3.eth.Contract(abi, contractAddress);
 
-async function connect() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            web3 = new Web3(window.ethereum);
-            accounts = await web3.eth.getAccounts();
+            async function connect() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    web3 = new Web3(window.ethereum);
+                    accounts = await web3.eth.getAccounts();
             const balance = await web3.eth.getBalance(accounts[0]);
             document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
 
-            contract = new web3.eth.Contract(abi, contractAddress);
+            contract1 = new web3.eth.Contract(abi1, contractAddress1);
+            contract2 = new web3.eth.Contract(abi2, contractAddress2);
 
             await displayUserBalance();
         } catch (error) {
@@ -527,7 +528,7 @@ async function mint() {
                 console.error(error);
             }
         }
-        const abi = 
+        const abi2 = 
         [
 	{
 		"inputs": [
@@ -662,7 +663,7 @@ async function mint() {
 		"type": "function"
 	}
 ]
-const contractAddress = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
+const contractAddress2 = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
 async function displayUserBalance() {
 	if (accounts && accounts[0]) {
@@ -702,8 +703,8 @@ async function depositGuigzToken() {
     const networkId = await web3.eth.net.getId();
 
     const tokenDepositWithdraw = new web3.eth.Contract(
-        abi,
-        contractAddress
+        abi2,
+        contractAddress2
     );
 
     const WSGBBalance = await tokenDepositWithdraw.methods.balancesWSGB(accounts[0]).call();
