@@ -19,9 +19,7 @@
 		<p>Cette expérience permit à Guigz de comprendre la valeur de la différence et de l'unicité, et il continua à explorer l'univers des NFT pour partager son histoire et inspirer d'autres amateurs à embrasser leur singularité.</p>
 	</div>
 	<div class="container">
-        <button id="connectButton">Se connecter à MetaMask</button>
-        <button id="connectSongbirdButton">Se connecter à Songbird Network</button>
-
+		<button onclick="connect()">Connect Wallet</button>
         <h2>Gérer vos GuigzToken</h2>
         <input type="text" id="guigzAmount" placeholder="Montant">
         <button id="depositGuigzToken">Déposer GuigzToken</button>
@@ -35,7 +33,6 @@
 	<p id="userBalance">Solde : 0</p>
 </div>
     <script>
-  
 		async function connect() {
     if (window.ethereum) {
         try {
@@ -202,21 +199,18 @@ async function withdrawWSGB() {
             await contract.methods.withdrawWSGB(amountInWei).send({ from: accounts[0] });
         }
 
-        document.getElementById("connectButton").addEventListener("click", connect);
+        document.getElementById("connect").addEventListener("click", connect);
         document.getElementById("depositGuigzToken").addEventListener("click", depositGuigzToken);
         document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
 
-	document.getElementById("connectButton").addEventListener("click", connectMetaMask);
+	document.getElementById("connect").addEventListener("click", connectMetaMask);
         // Vérifie que MetaMask est installé
 
 		const web3 = new Web3(window.ethereum);
     const contract = new web3.eth.Contract(contractAbi, contractAddress);
     const accounts = await web3.eth.getAccounts();
-
-    await contract.methods.swap(fromToken, toToken, amount).send({ from: accounts[0] });
 </script>
-<button onclick="connect()">Connect Wallet</button>
 </body>
 </html>
