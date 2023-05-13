@@ -654,6 +654,26 @@ async function mint() {
 ]
 const contractAddress = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
+async function connect() {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            web3 = new Web3(window.ethereum);
+            accounts = await web3.eth.getAccounts();
+            const balance = await web3.eth.getBalance(accounts[0]);
+            document.getElementById("balance").innerHTML = "Balance: " + balance / 1e18 + " SGB";
+
+            contract = new web3.eth.Contract(abi, contractAddress);
+
+            await displayUserBalance();
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.error("MetaMask not detected.");
+    }
+}
+
 async function displayUserBalance() {
 	if (accounts && accounts[0]) {
 		const userBalance = await web3.eth.getBalance(accounts[0]);
