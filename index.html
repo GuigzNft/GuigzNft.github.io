@@ -36,8 +36,9 @@
         let web3;
         let accounts;
         let contract;
+        let mintNFT = await contractAddress1.methods.mint(...).send({ from: accounts[0] });
 
-        const Abi = [
+        const abi1 = [
 	{
 		"inputs": [
 			{
@@ -489,7 +490,7 @@
 		"type": "function"
 	}
 ];
-        const ContractAddress = 0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf;
+        const contractAddress1 = 0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf;
 
         async function connect() {
     if (window.ethereum) {
@@ -500,7 +501,7 @@
             const balance = await web3.eth.getBalance(accounts[0]);
             document.getElementById("balance").innerHTML = "Balance: " + balance / 1e18 + " SGB";
 
-            contract = new web3.eth.Contract(Abi, ContractAddress);
+            contract = new web3.eth.Contract(abi1, contractAddress1);
 
             await displayUserBalance();
         } catch (error) {
