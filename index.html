@@ -38,36 +38,8 @@
         let contract;
         let mintNFT = await contract1.methods.mint(...).send({ from: accounts[0] });
         let contractAddress1, contractAddress2;
-        let contractAddress1 = "contractAddress1"; // Adresse du premier contrat
-            let abi1 = [abi1]; // ABI du premier contrat
-            contract1 = new web3.eth.Contract(abi1, contractAddress1);
-
-            let contractAddress2 = "contractAddress2"; // Adresse du deuxième contrat
-            let abi2 = [abi2]; // ABI du deuxième contrat
-            contract = new web3.eth.Contract(abi2, contractAddress2);
-
-            async function connect() {
-            if (window.ethereum) {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    web3 = new Web3(window.ethereum);
-                    accounts = await web3.eth.getAccounts();
-            const balance = await web3.eth.getBalance(accounts[0]);
-            document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
-
-            contract1 = new web3.eth.Contract(abi1, contractAddress1);
-            contract2 = new web3.eth.Contract(abi2, contractAddress2);
-
-            await displayUserBalance();
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        console.error("MetaMask not detected.");
-    }
-}
-
-        const abi1 = [
+        let contractAddress1 = "0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf"; 
+            let abi1 = [
 	{
 		"inputs": [
 			{
@@ -518,18 +490,11 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
-        const contractAddress1 = 0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf;
+];; 
+            contract1 = new web3.eth.Contract(abi1, contractAddress1);
 
-async function mint() {
-            try {
-                await contract.methods.mintNFT(accounts[0]).send({ from: accounts[0] });
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        const abi2 = 
-        [
+            let contractAddress2 = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C"; 
+            let abi2 = [
 	{
 		"inputs": [
 			{
@@ -662,7 +627,41 @@ async function mint() {
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+]; 
+            contract = new web3.eth.Contract(abi2, contractAddress2);
+
+            async function connect() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    web3 = new Web3(window.ethereum);
+                    accounts = await web3.eth.getAccounts();
+            const balance = await web3.eth.getBalance(accounts[0]);
+            document.getElementById("balancesWSGB").innerHTML = "balancesWSGB: " + balance / 1e18 + " SGB";
+
+            contract1 = new web3.eth.Contract(abi1, contractAddress1);
+            contract2 = new web3.eth.Contract(abi2, contractAddress2);
+
+            await displayUserBalance();
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.error("MetaMask not detected.");
+    }
+}
+
+        const abi1 = 
+        const contractAddress1 = 0x1b3e2c3F880273Fd3E9bd59B320697a0E172bebf;
+
+async function mint() {
+            try {
+                await contract.methods.mintNFT(accounts[0]).send({ from: accounts[0] });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        const abi2 = 
 const contractAddress2 = "0xF1e3C3B9716b6A154A8DA74968A847C71e04438C";
 
 async function displayUserBalance() {
