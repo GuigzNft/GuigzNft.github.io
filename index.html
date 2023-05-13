@@ -30,17 +30,21 @@
         <button id="depositWSGB">Déposer WSGB</button>
         <button id="withdrawWSGB">Retirer WSGB</button>
     </div>
-	<p id="userBalance">Solde : 0</p>
-</div>
+	<p id="balance">Solde : 0</p>
     <script>
-		async function connect() {
+
+async function connect() {
     if (window.ethereum) {
         try {
-            await window.ethereum.enable();
-            const web3 = new Web3(window.ethereum);
-            const accounts = await web3.eth.getAccounts();
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            web3 = new Web3(window.ethereum);
+            accounts = await web3.eth.getAccounts();
             const balance = await web3.eth.getBalance(accounts[0]);
             document.getElementById("balance").innerHTML = "Balance: " + balance / 1e18 + " SGB";
+
+            contract = new web3.eth.Contract(abi, contractAddress);
+
+            await displayUserBalance();
         } catch (error) {
             console.error(error);
         }
@@ -176,9 +180,9 @@ async function displayUserBalance() {
 }
 
 async function depositGuigzToken() {
-	const amount = document.getElementById("amount").value;
-	const amountInWei = web3.utils.toWei(amount, 'ether');
-	await contract.methods.depositGuigzToken(amountInWei).send({ from: accounts[0] });
+    const amount = document.getElementById("guigzAmount").value;
+    const amountInWei = web3.utils.toWei(amount, 'ether');
+    await contract.methods.depositGuigzToken(amountInWei).send({ from: accounts[0] });
 }
 
 async function withdrawGuigzToken() {
@@ -199,18 +203,14 @@ async function withdrawWSGB() {
             await contract.methods.withdrawWSGB(amountInWei).send({ from: accounts[0] });
         }
 
-        document.getElementById("connect").addEventListener("click", connect);
+		document.getElementById("connect").addEventListener("click", connect);
         document.getElementById("depositGuigzToken").addEventListener("click", depositGuigzToken);
         document.getElementById("withdrawGuigzToken").addEventListener("click", withdrawGuigzToken);
         document.getElementById("depositWSGB").addEventListener("click", depositWSGB);
         document.getElementById("withdrawWSGB").addEventListener("click", withdrawWSGB);
 
-	document.getElementById("connect").addEventListener("click", connectMetaMask);
-        // Vérifie que MetaMask est installé
-
 		const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(contractAbi, contractAddress);
-    const accounts = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(abi, contractAddress);
 </script>
 </body>
 </html>
