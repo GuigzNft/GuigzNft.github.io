@@ -18,42 +18,39 @@
 		<p>Un jour, Guigz tomba sur une image virtuelle représentant un éléphant rouge majestueux, qui lui ressemblait étrangement. Il décida d'investir dans ce NFT, qu'il baptisa GuigzNFT. Grâce à sa persévérance et à sa connaissance des concepts clés du stacking, du net et des cryptomonnaies, Guigz réussit à vendre son GuigzNFT à un prix bien supérieur à celui qu'il avait payé.</p>
 		<p>Cette expérience permit à Guigz de comprendre la valeur de la différence et de l'unicité, et il continua à explorer l'univers des NFT pour partager son histoire et inspirer d'autres amateurs à embrasser leur singularité.</p>
 	</div>
-    <div class="container">
+	<div class="container">
         <button id="connectButton">Se connecter à MetaMask</button>
         <button id="connectSongbirdButton">Se connecter à Songbird Network</button>
+
+        <h2>Gérer vos GuigzToken</h2>
+        <input type="text" id="guigzAmount" placeholder="Montant">
+        <button id="depositGuigzToken">Déposer GuigzToken</button>
+        <button id="withdrawGuigzToken">Retirer GuigzToken</button>
+
+        <h2>Gérer vos WSGB</h2>
+        <input type="text" id="wsgbAmount" placeholder="Montant">
+        <button id="depositWSGB">Déposer WSGB</button>
+        <button id="withdrawWSGB">Retirer WSGB</button>
     </div>
-	<script>
-		let web3, accounts, contract;
+	<p id="userBalance">Solde : 0</p>
+</div>
+    <script>
   
-		async function connectMetaMask() {
-		  if (typeof window.ethereum !== 'undefined') {
-			  window.web3 = new Web3(window.ethereum);
-			  web3 = window.web3;
-			  try {
-				  await window.ethereum.request({ method: 'eth_requestAccounts' });
-				  accounts = await web3.eth.getAccounts();
-			  } catch (error) {
-				  console.error("L'utilisateur a refusé la connexion");
-			  }
-		  } else {
-			  console.error("MetaMask n'est pas installé");
-		  }
-		}  
-
-async function connectSongbird() {
-	if (typeof window.ethereum !== 'undefined') {
-		window.web3 = new Web3('https://api.songbird.exnft.io/v1/songbird'); // URL RPC pour Songbird Network
-		web3 = window.web3;
-		try {
-			await window.ethereum.request({ method: 'eth_requestAccounts' });
-			accounts = await web3.eth.getAccounts();
-		} catch (error) {
-			console.error("L'utilisateur a refusé la connexion");
-		}
-	} else {
-		console.error("MetaMask n'est pas installé");
-	}
-
+		async function connect() {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.enable();
+            const web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.getAccounts();
+            const balance = await web3.eth.getBalance(accounts[0]);
+            document.getElementById("balance").innerHTML = "Balance: " + balance / 1e18 + " SGB";
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.error("MetaMask not detected.");
+    }
+}
         const abi = [
 	{
 		"inputs": [
@@ -213,23 +210,13 @@ async function withdrawWSGB() {
 
 	document.getElementById("connectButton").addEventListener("click", connectMetaMask);
         // Vérifie que MetaMask est installé
-        if (!window.ethereum) {
-            console.log("MetaMask non installé");
-            alert("Veuillez installer MetaMask pour utiliser cette application.");
-            return;
-        }
-        // Vérifie que l'utilisateur est connecté à MetaMask
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-            console.log("Comptes :", accounts);
-            if (accounts.length === 0) {
-                alert("Veuillez vous connecter à MetaMask.");
-                return;
-            }
-        } catch (error) {
-            console.error("Erreur lors de la demande de comptes :", error);
-        }
-    }
-    </script>
+
+		const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(contractAbi, contractAddress);
+    const accounts = await web3.eth.getAccounts();
+
+    await contract.methods.swap(fromToken, toToken, amount).send({ from: accounts[0] });
+</script>
+<button onclick="connect()">Connect Wallet</button>
 </body>
 </html>
